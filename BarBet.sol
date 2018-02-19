@@ -54,6 +54,16 @@ contract BarBet {
         return betHash;
     }
     
+    // cancel bet as proposer before other side is paid
+    function cancelBet(bytes32 betHash) public {
+        Bet storage b = bets[betHash];
+        // make sure it's proposer
+        require(b.proposer == msg.sender);
+        // make sure it hasn't been paid by the other party yet
+        require(b.paid == false);
+        msg.sender.transfer(b.value);
+    }
+    
     // accept a bet as the accepter
     function acceptBet(bytes32 betHash) public payable {
         Bet storage b = bets[betHash];
