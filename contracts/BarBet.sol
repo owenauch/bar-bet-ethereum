@@ -50,17 +50,18 @@ contract BarBet {
     }
     
     // cancel bet as proposer before other side is paid
-    function cancelBet(bytes32 betHash) public {
+    function cancelBet(bytes32 betHash) public returns(bytes32) {
         Bet storage b = bets[betHash];
         // make sure it's proposer
         require(b.proposer == msg.sender);
         // make sure it hasn't been paid by the other party yet
         require(b.paid == false);
         msg.sender.transfer(b.value);
+        return betHash;
     }
     
     // accept a bet as the accepter
-    function acceptBet(bytes32 betHash) public payable {
+    function acceptBet(bytes32 betHash) public payable returns(bytes32) {
         Bet storage b = bets[betHash];
         // check to make sure that the bet exists and it's the correct accepter
         require(b.accepter == msg.sender);
@@ -69,10 +70,11 @@ contract BarBet {
         // check to make sure they paid the correct amount
         require(b.value == msg.value);
         b.paid = true;
+        return betHash;
     }
     
     // settle a bet as the arbiter
-    function settleBet(bytes32 betHash, bool proposerWon) public {
+    function settleBet(bytes32 betHash, bool proposerWon) public returns(bytes32) {
         Bet storage b = bets[betHash];
         // make sure it's actually the arbiter
         require(b.arbiter == msg.sender);
@@ -89,5 +91,6 @@ contract BarBet {
         }
         // mark as settled
         b.settled = true;
+        return betHash;
     }
 }
