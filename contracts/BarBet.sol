@@ -1,7 +1,7 @@
-pragma solidity ^0.4.16;
+pragma solidity ^0.4.17;
 
 contract BarBet {
-    
+    // owner of the contract
     address public owner;
     
     // struct to represent a bet made between
@@ -41,11 +41,6 @@ contract BarBet {
     
     // fallback function
     function() public payable {}
-     
-    // function to add your address to array of gamblers
-    // function createGambler(string name) public {
-    //     gamblers[msg.sender] = Gambler(name, msg.sender);
-    // }
     
     // create a bet as the proposer
     function createBet(address accepter, address arbiter, string winningCondition) public payable returns (bytes32) {
