@@ -3,6 +3,8 @@ import BarBetContract from '../build/contracts/BarBet.json'
 import getWeb3 from './utils/getWeb3'
 import styled from 'styled-components'
 
+// import CreateBet from 'CreateBet.js'
+
 const Header = styled.div`
   background-color: #66B9BF;
   height: 100px;
@@ -78,6 +80,7 @@ class App extends Component {
           Ethereum Bar Bet
         </Header>
         <MainContainer>
+          {/* <CreateBet/> */}
         </MainContainer>
       </div>
     );
