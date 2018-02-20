@@ -3,6 +3,22 @@ import BarBetContract from '../build/contracts/BarBet.json'
 import getWeb3 from './utils/getWeb3'
 import styled from 'styled-components'
 
+const Header = styled.div`
+  background-color: #66B9BF;
+  height: 100px;
+  color: white;
+  font-size: 40px;
+  line-height: 100px;
+  padding: 15px;
+  font-family: 'Roboto', sans-serif;
+`
+
+const MainContainer = styled.div`
+  background-color: #EEAA7B;
+  padding: 10px;
+  font-family: 'Roboto', sans-serif;
+`
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -58,6 +74,11 @@ class App extends Component {
   render() {
     return (
       <div>
+        <Header>
+          Ethereum Bar Bet
+        </Header>
+        <MainContainer>
+        </MainContainer>
       </div>
     );
   }
