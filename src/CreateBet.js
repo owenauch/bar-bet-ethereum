@@ -5,6 +5,10 @@ const SubtitleText = styled.h2`
   color: white;
   font-size: 25px;
 `
+const SmallerText = styled.p`
+color: white;
+font-size: 20px;
+`
 
 const Label = styled.label`
   color: white;
@@ -74,6 +78,7 @@ class CreateBet extends Component {
 
   render () {
     const { accepterAddress, arbiterAddress, winningCondition, betValue } = this.state
+    const { betHash } = this.props
     return (
       <div>
         <SubtitleText>Create a bet as the proposer:</SubtitleText>
@@ -94,6 +99,11 @@ class CreateBet extends Component {
         >
           Create Bet
         </SubmitButton>
+        {betHash && <div>
+          <SubtitleText>Your bet hash -- save this so that accepter and arbiter can interact with your bet!</SubtitleText>
+          <SmallerText>{betHash}</SmallerText>
+        </div>
+        }
       </div>
     )
   }

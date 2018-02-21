@@ -28,6 +28,7 @@ class App extends Component {
     this.state = {
       storageValue: 0,
       web3: null,
+      betHash: null
     }
   }
 
@@ -67,10 +68,7 @@ class App extends Component {
       // create a bet with the given arguments
       return barBetInstance.createBet(accepterAddress, arbiterAddress, winningCondtion, {from: this.state.web3.eth.accounts[0], value: betValue})
     }).then((result) => {
-      console.log(result)
-      return barBetInstance.getBet(result.logs[0].args.betHash, {from: this.state.web3.eth.accounts[0]})
-    }).then((result) => {
-      console.log(result)
+      this.setState({betHash: result.logs[0].args.betHash})
     })
   }
 
@@ -81,7 +79,7 @@ class App extends Component {
           Ethereum Bar Bet
         </Header>
         <MainContainer>
-          <CreateBet createBet={this.createBetTransaction}/>
+          <CreateBet createBet={this.createBetTransaction} betHash={this.state.betHash}/>
         </MainContainer>
       </div>
     );
