@@ -41,11 +41,19 @@ contract BarBet {
     
     // fallback function
     function() public payable {}
+
+    // events for each function
+    event betCreated(bytes32 betHash);
+    event betCancelled(bytes32 betHash);
+    event betAccepted(bytes32 betHash);
+    event betSettled(bytes32 betHash);
+
     
     // create a bet as the proposer
     function createBet(address accepter, address arbiter, string winningCondition) public payable returns (bytes32) {
         bytes32 betHash = keccak256(msg.sender,accepter,arbiter,winningCondition);
         bets[betHash] = (Bet(msg.sender, accepter, arbiter, winningCondition, msg.value, false, false));
+        betCreated(betHash);
         return betHash;
     }
     
@@ -57,6 +65,7 @@ contract BarBet {
         // make sure it hasn't been paid by the other party yet
         require(b.paid == false);
         msg.sender.transfer(b.value);
+        betCancelled(betHash);
         return betHash;
     }
     
@@ -70,6 +79,7 @@ contract BarBet {
         // check to make sure they paid the correct amount
         require(b.value == msg.value);
         b.paid = true;
+        betAccepted(betHash);
         return betHash;
     }
     
@@ -91,6 +101,7 @@ contract BarBet {
         }
         // mark as settled
         b.settled = true;
+        betSettled(betHash);
         return betHash;
     }
 }
