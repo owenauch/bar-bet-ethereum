@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import styled from 'styled-components'
 
 const SubtitleText = styled.h2`
@@ -44,19 +44,30 @@ const SubmitButton = styled.button`
   font-size: 16px;
 `
 
-const CreateBet = (props) => (
-  <div>
-    <SubtitleText>Create a bet as the proposer:</SubtitleText>
-    <Label for='accepter-address'>Accepter address (party accepting the bet):</Label>
-    <TextInput id='accepter-address' type='text'/>
-    <Label for='arbiter-address'>Arbiter address (third-party who will decide which party won the bet):</Label>
-    <TextInput id='arbiter-address' type='text'/>
-    <Label for='winning-condition'>Winning Condition (in what case does the proposer win the bet):</Label>
-    <TextInput id='winning-condition' />
-    <Label for='bet-value'>Bet Value (in wei):</Label>
-    <NumberInput id='bet-value' type='number'/>
-    <SubmitButton>Create Bet</SubmitButton>
-  </div>
-)
+class CreateBet extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+    }
+  }
+
+  render () {
+    return (
+      <div>
+        <SubtitleText>Create a bet as the proposer:</SubtitleText>
+        <Label for='accepter-address'>Accepter address (party accepting the bet):</Label>
+        <TextInput id='accepter-address' type='text'/>
+        <Label for='arbiter-address'>Arbiter address (third-party who will decide which party won the bet):</Label>
+        <TextInput id='arbiter-address' type='text'/>
+        <Label for='winning-condition'>Winning Condition (in what case does the proposer win the bet):</Label>
+        <TextInput id='winning-condition' />
+        <Label for='bet-value'>Bet Value (in wei):</Label>
+        <NumberInput id='bet-value' type='number'/>
+        <SubmitButton>Create Bet</SubmitButton>
+      </div>
+    )
+  }
+}
 
 export default CreateBet
