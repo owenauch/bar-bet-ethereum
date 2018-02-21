@@ -49,22 +49,51 @@ class CreateBet extends Component {
     super(props)
 
     this.state = {
+      accepterAddress: "",
+      arbiterAddress: "",
+      winningCondition: "",
+      betValue: 0
     }
   }
 
+  handleAccepterAddressChange = (event) => {
+    this.setState({accepterAddress: event.target.value})
+  }
+
+  handleArbiterAddressChange = (event) => {
+    this.setState({arbiterAddress: event.target.value})
+  }
+
+  handleWinningConditionChange = (event) => {
+    this.setState({winningCondition: event.target.value})
+  }
+
+  handleBetValueChange = (event) => {
+    this.setState({betValue: event.target.value})
+  }
+
   render () {
+    const { accepterAddress, arbiterAddress, winningCondition, betValue } = this.state
     return (
       <div>
         <SubtitleText>Create a bet as the proposer:</SubtitleText>
         <Label for='accepter-address'>Accepter address (party accepting the bet):</Label>
-        <TextInput id='accepter-address' type='text'/>
+        <TextInput id='accepter-address' type='text'
+          value={accepterAddress} onChange={this.handleAccepterAddressChange} />
         <Label for='arbiter-address'>Arbiter address (third-party who will decide which party won the bet):</Label>
-        <TextInput id='arbiter-address' type='text'/>
+        <TextInput id='arbiter-address' type='text'
+          value={arbiterAddress} onChange={this.handleArbiterAddressChange} />
         <Label for='winning-condition'>Winning Condition (in what case does the proposer win the bet):</Label>
-        <TextInput id='winning-condition' />
+        <TextInput id='winning-condition' type='text'
+          value={winningCondition} onChange={this.handleWinningConditionChange} />
         <Label for='bet-value'>Bet Value (in wei):</Label>
-        <NumberInput id='bet-value' type='number'/>
-        <SubmitButton>Create Bet</SubmitButton>
+        <NumberInput id='bet-value' type='number'
+          value={betValue} onChange={this.handleBetValueChange} />
+        <SubmitButton
+          onClick={() => {this.props.createBet(accepterAddress, arbiterAddress, winningCondition, betValue)}}
+        >
+          Create Bet
+        </SubmitButton>
       </div>
     )
   }

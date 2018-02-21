@@ -28,7 +28,6 @@ class App extends Component {
     this.state = {
       storageValue: 0,
       web3: null,
-      ownerAddress: 0
     }
   }
 
@@ -51,26 +50,14 @@ class App extends Component {
   }
 
   instantiateContract() {
-
     const contract = require('truffle-contract')
     const barBet = contract(BarBetContract)
     barBet.setProvider(this.state.web3.currentProvider)
+  }
 
-    // Declaring this for later so we can chain functions on SimpleStorage.
-    var barBetInstance
-
-    // Get accounts.
-    this.state.web3.eth.getAccounts((error, accounts) => {
-      barBet.deployed().then((instance) => {
-        barBetInstance = instance
-
-        // gets the owner of the contract
-        return barBetInstance.owner()
-      }).then((ownerAddress) => {
-        // Update state with the result.
-        return this.setState({ ownerAddress })
-      })
-    })
+  // create a bet on the contract
+  createBet = (accepterAddress, arbiterAddress, winningCondtion, betValue) => {
+    console.log('gars')
   }
 
   render() {
@@ -80,7 +67,7 @@ class App extends Component {
           Ethereum Bar Bet
         </Header>
         <MainContainer>
-          <CreateBet/>
+          <CreateBet createBet={this.createBet}/>
         </MainContainer>
       </div>
     );
