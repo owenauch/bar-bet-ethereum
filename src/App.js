@@ -56,8 +56,17 @@ class App extends Component {
   }
 
   // create a bet on the contract
-  createBet = (accepterAddress, arbiterAddress, winningCondtion, betValue) => {
-    console.log('gars')
+  createBetTransaction = (accepterAddress, arbiterAddress, winningCondtion, betValue) => {
+    const contract = require('truffle-contract')
+    const barBet = contract(BarBetContract)
+    barBet.setProvider(this.state.web3.currentProvider)
+    barBet.deployed().then((instance) => {
+      const barBetInstance = instance
+      // create a bet with the given arguments
+      return barBetInstance.createBet(accepterAddress, arbiterAddress, winningCondtion, {from: this.state.web3.eth.accounts[0], value: betValue})
+    }).then((result) => {
+      console.log(result)
+    })
   }
 
   render() {
@@ -67,7 +76,7 @@ class App extends Component {
           Ethereum Bar Bet
         </Header>
         <MainContainer>
-          <CreateBet createBet={this.createBet}/>
+          <CreateBet createBet={this.createBetTransaction}/>
         </MainContainer>
       </div>
     );
