@@ -43,18 +43,25 @@ contract BarBet {
     function() public payable {}
 
     // events for each function
-    event betCreated(bytes32 betHash);
-    event betCancelled(bytes32 betHash);
-    event betAccepted(bytes32 betHash);
-    event betSettled(bytes32 betHash);
+    event BetCreated(bytes32 betHash);
+    event BetCancelled(bytes32 betHash);
+    event BetAccepted(bytes32 betHash);
+    event BetSettled(bytes32 betHash);
+    event BetRetrieved(address proposer, address accepter, address arbiter, string winningCondition, uint value, bool paid, bool settled);
 
-    
     // create a bet as the proposer
     function createBet(address accepter, address arbiter, string winningCondition) public payable returns (bytes32) {
         bytes32 betHash = keccak256(msg.sender,accepter,arbiter,winningCondition);
         bets[betHash] = (Bet(msg.sender, accepter, arbiter, winningCondition, msg.value, false, false));
-        betCreated(betHash);
+        BetCreated(betHash);
         return betHash;
+    }
+
+    // get a Bet by hash
+    function getBet(bytes32 betHash) public returns (address, address, address, string, uint, bool, bool) {
+        Bet storage b = bets[betHash];
+        BetRetrieved(b.proposer, b.accepter, b.arbiter, b.winningCondition, b.value, b.paid, b.settled);
+        return (b.proposer, b.accepter, b.arbiter, b.winningCondition, b.value, b.paid, b.settled);
     }
     
     // cancel bet as proposer before other side is paid
@@ -65,7 +72,7 @@ contract BarBet {
         // make sure it hasn't been paid by the other party yet
         require(b.paid == false);
         msg.sender.transfer(b.value);
-        betCancelled(betHash);
+        BetCancelled(betHash);
         return betHash;
     }
     
@@ -79,7 +86,7 @@ contract BarBet {
         // check to make sure they paid the correct amount
         require(b.value == msg.value);
         b.paid = true;
-        betAccepted(betHash);
+        BetAccepted(betHash);
         return betHash;
     }
     
@@ -101,7 +108,7 @@ contract BarBet {
         }
         // mark as settled
         b.settled = true;
-        betSettled(betHash);
+        BetSettled(betHash);
         return betHash;
     }
 }

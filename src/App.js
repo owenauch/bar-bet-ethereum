@@ -60,10 +60,15 @@ class App extends Component {
     const contract = require('truffle-contract')
     const barBet = contract(BarBetContract)
     barBet.setProvider(this.state.web3.currentProvider)
+
+    var barBetInstance;
     barBet.deployed().then((instance) => {
-      const barBetInstance = instance
+      barBetInstance = instance
       // create a bet with the given arguments
       return barBetInstance.createBet(accepterAddress, arbiterAddress, winningCondtion, {from: this.state.web3.eth.accounts[0], value: betValue})
+    }).then((result) => {
+      console.log(result)
+      return barBetInstance.getBet(result.logs[0].args.betHash, {from: this.state.web3.eth.accounts[0]})
     }).then((result) => {
       console.log(result)
     })
