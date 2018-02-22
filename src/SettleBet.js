@@ -32,7 +32,7 @@ const TextInput = styled.input`
 `
 
 const SubmitButton = styled.button`
-  background-color: #E37222;
+  background-color: #07889B;
   border: none;
   color: white;
   padding: 15px 32px;
@@ -96,7 +96,7 @@ class SettleBet extends Component {
             const proposerWon = 'proposer' === betWinner
             this.props.settleBet(betHash, proposerWon)}}
         >
-          Accept Bet
+          Settle Bet
         </SubmitButton>
         {confirmedBetHash && <div>
           <SubtitleText>Bet Settled! The winner has been paid.</SubtitleText>
