@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 
 const OuterDiv = styled.div`
-  background-color: #66B9BF;
+  background-color: #EEAA7B;
   padding: 15px;
 `
 
@@ -43,12 +43,29 @@ const SubmitButton = styled.button`
   font-size: 16px;
 `
 
-class AcceptBet extends Component {
+const StyledSelect = styled.select`
+  background: white;
+  width: 268px;
+  margin: 10px;
+  padding: 5px;
+  font-size: 16px;
+  line-height: 1;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  border-top: none;
+  border-bottom: 1px solid #DDD;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.39), 0 -1px 1px #FFF, 0 1px 0 #FFF;
+  height: 34px;
+  display: block;
+`
+
+class SettleBet extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
       betHash: "",
+      betWinner: ""
     }
   }
 
@@ -56,27 +73,33 @@ class AcceptBet extends Component {
     this.setState({betHash: event.target.value})
   }
 
+  handleBetWinnerChange = (event) => {
+    this.setState({betWinner: event.target.value})
+  }
+
   render () {
-    const { betHash } = this.state
-    const { confirmedBetHash, winningCondition, betValue } = this.props
+    const { betHash, betWinner } = this.state
+    const { confirmedBetHash, winningCondition } = this.props
     return (
       <OuterDiv>
-        <SubtitleText>Accept a bet as the accepter:</SubtitleText>
+        <SubtitleText>Settle a bet as the arbiter:</SubtitleText>
         <Label for='bet-hash'>Bet hash:</Label>
         <TextInput id='bet-hash' type='text'
           value={betHash} onChange={this.handleBetHashChange} />
+        <Label>Who won the bet?</Label>
+        <StyledSelect value={this.state.value} onChange={this.handleBetWinnerChange}>
+          <option value="proposer">Proposer</option>
+          <option value="accepter">Accepter</option>
+        </StyledSelect>
         <SubmitButton
-          onClick={() => {this.props.acceptBet(betHash)}}
+          onClick={() => {
+            const proposerWon = 'proposer' === betWinner
+            this.props.settleBet(betHash, proposerWon)}}
         >
           Accept Bet
         </SubmitButton>
         {confirmedBetHash && <div>
-          <SubtitleText>Accepted Bet Hash</SubtitleText>
-          <SmallerText>{confirmedBetHash}</SmallerText>
-          <SubtitleText>Accepted Bet Winning Condition</SubtitleText>
-          <SmallerText>{winningCondition}</SmallerText>
-          <SubtitleText>Accepted Bet Value</SubtitleText>
-          <SmallerText>{betValue}</SmallerText>
+          <SubtitleText>Bet Settled</SubtitleText>
         </div>
         }
       </OuterDiv>
@@ -84,4 +107,4 @@ class AcceptBet extends Component {
   }
 }
 
-export default AcceptBet
+export default SettleBet
