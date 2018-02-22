@@ -47,7 +47,6 @@ contract BarBet {
     event BetCancelled(bytes32 betHash);
     event BetAccepted(bytes32 betHash);
     event BetSettled(bytes32 betHash);
-    event BetRetrieved(address proposer, address accepter, address arbiter, string winningCondition, uint value, bool paid, bool settled);
 
     // create a bet as the proposer
     function createBet(address accepter, address arbiter, string winningCondition) public payable returns (bytes32) {
@@ -55,13 +54,6 @@ contract BarBet {
         bets[betHash] = (Bet(msg.sender, accepter, arbiter, winningCondition, msg.value, false, false));
         BetCreated(betHash);
         return betHash;
-    }
-
-    // get a Bet by hash
-    function getBet(bytes32 betHash) public returns (address, address, address, string, uint, bool, bool) {
-        Bet storage b = bets[betHash];
-        BetRetrieved(b.proposer, b.accepter, b.arbiter, b.winningCondition, b.value, b.paid, b.settled);
-        return (b.proposer, b.accepter, b.arbiter, b.winningCondition, b.value, b.paid, b.settled);
     }
     
     // cancel bet as proposer before other side is paid

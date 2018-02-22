@@ -1,13 +1,18 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
+const OuterDiv = styled.div`
+  background-color: #EEAA7B;
+  padding: 15px;
+`
+
 const SubtitleText = styled.h2`
   color: white;
   font-size: 25px;
 `
 const SmallerText = styled.p`
-color: white;
-font-size: 20px;
+  color: white;
+  font-size: 20px;
 `
 
 const Label = styled.label`
@@ -80,12 +85,12 @@ class CreateBet extends Component {
     const { accepterAddress, arbiterAddress, winningCondition, betValue } = this.state
     const { betHash } = this.props
     return (
-      <div>
+      <OuterDiv>
         <SubtitleText>Create a bet as the proposer:</SubtitleText>
-        <Label for='accepter-address'>Accepter address (party accepting the bet):</Label>
+        <Label for='accepter-address'>Accepter address (person accepting the bet):</Label>
         <TextInput id='accepter-address' type='text'
           value={accepterAddress} onChange={this.handleAccepterAddressChange} />
-        <Label for='arbiter-address'>Arbiter address (third-party who will decide which party won the bet):</Label>
+        <Label for='arbiter-address'>Arbiter address (third party who will decide which person won the bet):</Label>
         <TextInput id='arbiter-address' type='text'
           value={arbiterAddress} onChange={this.handleArbiterAddressChange} />
         <Label for='winning-condition'>Winning Condition (in what case does the proposer win the bet):</Label>
@@ -104,7 +109,7 @@ class CreateBet extends Component {
           <SmallerText>{betHash}</SmallerText>
         </div>
         }
-      </div>
+      </OuterDiv>
     )
   }
 }
