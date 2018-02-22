@@ -79,7 +79,7 @@ class SettleBet extends Component {
 
   render () {
     const { betHash, betWinner } = this.state
-    const { confirmedBetHash, winningCondition } = this.props
+    const { confirmedBetHash } = this.props
     return (
       <OuterDiv>
         <SubtitleText>Settle a bet as the arbiter:</SubtitleText>
@@ -99,7 +99,9 @@ class SettleBet extends Component {
           Accept Bet
         </SubmitButton>
         {confirmedBetHash && <div>
-          <SubtitleText>Bet Settled</SubtitleText>
+          <SubtitleText>Bet Settled! The winner has been paid.</SubtitleText>
+          <SubtitleText>Bet Hash:</SubtitleText>
+          <SmallerText>{confirmedBetHash}</SmallerText>
         </div>
         }
       </OuterDiv>

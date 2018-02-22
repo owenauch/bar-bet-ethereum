@@ -33,6 +33,7 @@ const TextInput = styled.input`
 
 const NumberInput = styled.input`
   height: 34px;
+  width: 25%;
   border-radius: 3px;
   border: 1px solid transparent;
   border-top: none;

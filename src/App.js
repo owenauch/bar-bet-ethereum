@@ -31,7 +31,8 @@ class App extends Component {
       createBetHash: null,
       acceptBetHash: null,
       acceptBetWinningCondition: '',
-      acceptBetValue: null
+      acceptBetValue: null,
+      settleBetHash: null
     }
   }
 
@@ -89,7 +90,6 @@ class App extends Component {
       return barBetInstance.bets(betHash)
     }).then((result) => {
       // extract data about bet
-      console.log(result)
       const betValue = result[4].c[0]
       const winningCondition = result[3]
       this.setState({acceptBetWinningCondition: winningCondition, acceptBetValue: betValue})
@@ -97,6 +97,7 @@ class App extends Component {
       // accept the bet with the matching bet value
       return barBetInstance.acceptBet(betHash, {from: this.state.web3.eth.accounts[0], value: betValue})
     }).then((result) => {
+      console.log(result)
       this.setState({acceptBetHash: result.logs[0].args.betHash})
     })
   }
@@ -114,7 +115,7 @@ class App extends Component {
       // transaction to settle bet
       return barBetInstance.settleBet(betHash, proposerWon, {from: this.state.web3.eth.accounts[0]})
     }).then((result) => {
-      console.log(result)
+      this.setState({settleBetHash: result.logs[0].args.betHash})
     })
   }
 
@@ -132,7 +133,7 @@ class App extends Component {
             winningCondition={this.state.acceptBetWinningCondition}
             betValue={this.state.acceptBetValue}
           />
-          <SettleBet settleBet={this.settleBetTransaction} />
+          <SettleBet settleBet={this.settleBetTransaction} confirmedBetHash={this.state.settleBetHash}/>
         </MainContainer>
       </div>
     );
