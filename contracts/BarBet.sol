@@ -63,6 +63,7 @@ contract BarBet {
         require(b.proposer == msg.sender);
         // make sure it hasn't been paid by the other party yet
         require(b.paid == false);
+        delete bets[betHash];
         msg.sender.transfer(b.value);
         BetCancelled(betHash);
         return betHash;

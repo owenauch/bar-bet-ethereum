@@ -44,7 +44,9 @@ class App extends Component {
       getBetWinningCondition: '',
       getBetValue: null,
       getBetPaid: null,
-      getBetSettled: null
+      getBetSettled: null,
+
+      cancelBetHash: null
     }
   }
 
@@ -163,6 +165,22 @@ class App extends Component {
     })
   }
 
+  // cancel a bet on the contract
+  cancelBetTransaction = () => {
+    const contract = require('truffle-contract')
+    const barBet = contract(BarBetContract)
+    barBet.setProvider(this.state.web3.currentProvider)
+
+    var barBetInstance;
+    barBet.deployed().then((instance) => {
+      barBetInstance = instance
+
+      return barBetInstance.cancelBet(this.state.getBetHash, {from: this.state.web3.eth.accounts[0]})
+    }).then((result) => {
+      this.setState({cancelBetHash: result.logs[0].args.betHash})
+    })
+  }
+
   render() {
     return (
       <div>
@@ -172,6 +190,7 @@ class App extends Component {
         <MainContainer>
           <GetBet
             confirmedBetHash={this.state.getBetHash}
+            cancelBetHash={this.state.cancelBetHash}
             proposer={this.state.getBetProposer}
             accepter={this.state.getBetAccepter}
             arbiter={this.state.getBetArbiter}
@@ -180,6 +199,7 @@ class App extends Component {
             paid={this.state.getBetPaid}
             settled={this.state.getBetSettled}
             getBet={this.getBetTransaction}
+            cancelBet={this.cancelBetTransaction}
           />
           <CreateBet createBet={this.createBetTransaction} betHash={this.state.createBetHash}/>
           <AcceptBet

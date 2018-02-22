@@ -12,7 +12,7 @@ const SubtitleText = styled.h2`
 `
 const SmallerText = styled.p`
   color: white;
-  font-size: 20px;
+  font-size: 16px;
 `
 
 const Label = styled.label`
@@ -58,7 +58,7 @@ class GetBet extends Component {
 
   render () {
     const { betHash } = this.state
-    const { confirmedBetHash, proposer, accepter, arbiter, winningCondition, betValue, paid, settled } = this.props
+    const { confirmedBetHash, proposer, accepter, arbiter, winningCondition, betValue, paid, settled, cancelBetHash } = this.props
     return (
       <OuterDiv>
         <SubtitleText>View a bet or cancel as proposer if unpaid:</SubtitleText>
@@ -87,6 +87,15 @@ class GetBet extends Component {
           <SmallerText>{paid ? "Yes" : "No"}</SmallerText>
           <SubtitleText>Settled?</SubtitleText>
           <SmallerText>{settled ? "Yes" : "No"}</SmallerText>
+          <SubmitButton
+            onClick={() => {this.props.cancelBet(betHash)}}
+          >
+            Cancel Bet
+          </SubmitButton>
+        </div>
+        }
+        {cancelBetHash && <div>
+          <SubtitleText>Bet cancelled! Ether will be refunded to your account.</SubtitleText>
         </div>
         }
       </OuterDiv>
