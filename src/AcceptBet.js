@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 
 const OuterDiv = styled.div`
-  background-color: #66B9BF;
+  background-color: #EEAA7B;
   padding: 15px;
 `
 
@@ -32,7 +32,7 @@ const TextInput = styled.input`
 `
 
 const SubmitButton = styled.button`
-  background-color: #E37222;
+  background-color: #07889B;
   border: none;
   color: white;
   padding: 15px 32px;

@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import CreateBet from './CreateBet.js'
 import AcceptBet from './AcceptBet.js'
 import SettleBet from './SettleBet.js'
+import GetBet from './GetBet.js'
 
 const Header = styled.div`
   background-color: #66B9BF;
@@ -29,10 +30,21 @@ class App extends Component {
       storageValue: 0,
       web3: null,
       createBetHash: null,
+
       acceptBetHash: null,
       acceptBetWinningCondition: '',
       acceptBetValue: null,
-      settleBetHash: null
+
+      settleBetHash: null,
+
+      getBetHash: null,
+      getBetProposer: '',
+      getBetAccepter: '',
+      getBetArbiter: '',
+      getBetWinningCondition: '',
+      getBetValue: null,
+      getBetPaid: null,
+      getBetSettled: null
     }
   }
 
@@ -97,7 +109,6 @@ class App extends Component {
       // accept the bet with the matching bet value
       return barBetInstance.acceptBet(betHash, {from: this.state.web3.eth.accounts[0], value: betValue})
     }).then((result) => {
-      console.log(result)
       this.setState({acceptBetHash: result.logs[0].args.betHash})
     })
   }
@@ -119,6 +130,39 @@ class App extends Component {
     })
   }
 
+  // get a bet on the contract
+  getBetTransaction = (betHash) => {
+    const contract = require('truffle-contract')
+    const barBet = contract(BarBetContract)
+    barBet.setProvider(this.state.web3.currentProvider)
+
+    var barBetInstance;
+    barBet.deployed().then((instance) => {
+      barBetInstance = instance
+      // look up bet with this hash
+      return barBetInstance.bets(betHash)
+    }).then((result) => {
+      // extract data about bet and set state with it
+      const proposer = result[0]
+      const accepter = result[1]
+      const arbiter = result[2]
+      const winningCondition = result[3]
+      const betValue = result[4].c[0]
+      const paid = result[5]
+      const settled = result[6]
+      this.setState({
+        getBetHash: betHash,
+        getBetProposer: proposer,
+        getBetAccepter: accepter,
+        getBetArbiter: arbiter,
+        getBetWinningCondition: winningCondition,
+        getBetValue: betValue,
+        getBetPaid: paid,
+        getBetSettled: settled
+      })
+    })
+  }
+
   render() {
     return (
       <div>
@@ -126,6 +170,17 @@ class App extends Component {
           Ethereum Bar Bet
         </Header>
         <MainContainer>
+          <GetBet
+            confirmedBetHash={this.state.getBetHash}
+            proposer={this.state.getBetProposer}
+            accepter={this.state.getBetAccepter}
+            arbiter={this.state.getBetArbiter}
+            winningCondition={this.state.getBetWinningCondition}
+            betValue={this.state.getBetValue}
+            paid={this.state.getBetPaid}
+            settled={this.state.getBetSettled}
+            getBet={this.getBetTransaction}
+          />
           <CreateBet createBet={this.createBetTransaction} betHash={this.state.createBetHash}/>
           <AcceptBet
             acceptBet={this.acceptBetTransaction}

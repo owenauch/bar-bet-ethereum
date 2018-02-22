@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 
 const OuterDiv = styled.div`
-  background-color: #66B9BF;
+  background-color: #EEAA7B;
   padding: 15px;
 `
 
@@ -32,7 +32,7 @@ const TextInput = styled.input`
 `
 
 const SubmitButton = styled.button`
-  background-color: #E37222;
+  background-color: #07889B;
   border: none;
   color: white;
   padding: 15px 32px;
@@ -43,29 +43,12 @@ const SubmitButton = styled.button`
   font-size: 16px;
 `
 
-const StyledSelect = styled.select`
-  background: white;
-  width: 268px;
-  margin: 10px;
-  padding: 5px;
-  font-size: 16px;
-  line-height: 1;
-  border-radius: 3px;
-  border: 1px solid transparent;
-  border-top: none;
-  border-bottom: 1px solid #DDD;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.39), 0 -1px 1px #FFF, 0 1px 0 #FFF;
-  height: 34px;
-  display: block;
-`
-
-class SettleBet extends Component {
+class GetBet extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
       betHash: "",
-      betWinner: ""
     }
   }
 
@@ -73,35 +56,37 @@ class SettleBet extends Component {
     this.setState({betHash: event.target.value})
   }
 
-  handleBetWinnerChange = (event) => {
-    this.setState({betWinner: event.target.value})
-  }
-
   render () {
-    const { betHash, betWinner } = this.state
-    const { confirmedBetHash } = this.props
+    const { betHash } = this.state
+    const { confirmedBetHash, proposer, accepter, arbiter, winningCondition, betValue, paid, settled } = this.props
     return (
       <OuterDiv>
-        <SubtitleText>Settle a bet as the arbiter:</SubtitleText>
+        <SubtitleText>View a bet or cancel as proposer if unpaid:</SubtitleText>
         <Label for='bet-hash'>Bet hash:</Label>
         <TextInput id='bet-hash' type='text'
           value={betHash} onChange={this.handleBetHashChange} />
-        <Label>Who won the bet?</Label>
-        <StyledSelect value={this.state.value} onChange={this.handleBetWinnerChange}>
-          <option value="proposer">Proposer</option>
-          <option value="accepter">Accepter</option>
-        </StyledSelect>
         <SubmitButton
-          onClick={() => {
-            const proposerWon = 'proposer' === betWinner
-            this.props.settleBet(betHash, proposerWon)}}
+          onClick={() => {this.props.getBet(betHash)}}
         >
-          Settle Bet
+          View Bet
         </SubmitButton>
         {confirmedBetHash && <div>
-          <SubtitleText>Bet Settled! The winner has been paid.</SubtitleText>
-          <SubtitleText>Bet Hash:</SubtitleText>
+          <SubtitleText>Bet Hash</SubtitleText>
           <SmallerText>{confirmedBetHash}</SmallerText>
+          <SubtitleText>Proposer</SubtitleText>
+          <SmallerText>{proposer}</SmallerText>
+          <SubtitleText>Accepter</SubtitleText>
+          <SmallerText>{accepter}</SmallerText>
+          <SubtitleText>Arbiter</SubtitleText>
+          <SmallerText>{arbiter}</SmallerText>
+          <SubtitleText>Winning Condition</SubtitleText>
+          <SmallerText>{winningCondition}</SmallerText>
+          <SubtitleText>Bet Value</SubtitleText>
+          <SmallerText>{betValue}</SmallerText>
+          <SubtitleText>Paid?</SubtitleText>
+          <SmallerText>{paid ? "Yes" : "No"}</SmallerText>
+          <SubtitleText>Settled?</SubtitleText>
+          <SmallerText>{settled ? "Yes" : "No"}</SmallerText>
         </div>
         }
       </OuterDiv>
@@ -109,4 +94,4 @@ class SettleBet extends Component {
   }
 }
 
-export default SettleBet
+export default GetBet
