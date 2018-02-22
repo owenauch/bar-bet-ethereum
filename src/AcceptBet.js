@@ -73,7 +73,7 @@ class AcceptBet extends Component {
 
   render () {
     const { betHash, betValue } = this.state
-    const { confirmedBetHash } = this.props
+    const { confirmedBetHash, winningCondition } = this.props
     return (
       <OuterDiv>
         <SubtitleText>Accept a bet as the accepter:</SubtitleText>
@@ -86,8 +86,12 @@ class AcceptBet extends Component {
           Accept Bet
         </SubmitButton>
         {confirmedBetHash && <div>
-          <SubtitleText>Your bet hash -- save this so that accepter and arbiter can interact with your bet!</SubtitleText>
-          <SmallerText>{betHash}</SmallerText>
+          <SubtitleText>Accepted Bet Hash</SubtitleText>
+          <SmallerText>{confirmedBetHash}</SmallerText>
+          <SubtitleText>Accepted Bet Winning Condition</SubtitleText>
+          <SmallerText>{winningCondition}</SmallerText>
+          <SubtitleText>Accepted Bet Value</SubtitleText>
+          <SmallerText>{this.props.betValue}</SmallerText>
         </div>
         }
       </OuterDiv>
