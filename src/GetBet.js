@@ -59,6 +59,7 @@ class GetBet extends Component {
   render () {
     const { betHash } = this.state
     const { confirmedBetHash, proposer, accepter, arbiter, winningCondition, betValue, paid, settled, cancelBetHash } = this.props
+    console.log(paid)
     return (
       <OuterDiv>
         <SubtitleText>View a bet or cancel as proposer if unpaid:</SubtitleText>
