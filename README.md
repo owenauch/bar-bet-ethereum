@@ -1,5 +1,8 @@
 # bar-bet-ethereum
-Smart contract to allow two parties to place a bar bet arbitrated by a third party.
+A smart contract to allow two parties to place a bar bet arbitrated by a third party, and a React frontend to interact with the contract via web3.js and Metamask.
+<p align="center">
+  <img src='https://github.com/owenauch/bar-bet-ethereum/blob/master/bar-bet-eth-screenshot.png?raw=true' width="850px" />
+</p>
 
 ## How to Run:
 1) Clone the repo: `git clone https://github.com/owenauch/bar-bet-ethereum.git`
