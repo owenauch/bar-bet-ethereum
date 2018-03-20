@@ -33,7 +33,9 @@ contract BarBet {
     }
     
     // fallback function
-    function() public payable {}
+    function() public payable {
+        revert();
+    }
 
     // events for each function
     event BetCreated(bytes32 betHash);
@@ -43,7 +45,7 @@ contract BarBet {
 
     // create a bet as the proposer
     function createBet(address accepter, address arbiter, string winningCondition) public payable returns (bytes32) {
-        // block.timestamp hashed to ensure no duplicate block hashes
+        // block.timestamp hashed to ensure no duplicate bet hashes
         bytes32 betHash = keccak256(msg.sender,accepter,arbiter,winningCondition, block.timestamp);
         bets[betHash] = (Bet(msg.sender, accepter, arbiter, winningCondition, msg.value, false, false));
         BetCreated(betHash);
