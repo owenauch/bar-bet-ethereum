@@ -32,13 +32,6 @@ contract BarBet {
         owner = msg.sender;
     }
     
-    // function to kill contract
-    // can only be called by owner
-    function kill() public {
-        require(msg.sender == owner);
-        selfdestruct(owner);
-    }
-    
     // fallback function
     function() public payable {}
 
