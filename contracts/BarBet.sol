@@ -43,7 +43,8 @@ contract BarBet {
 
     // create a bet as the proposer
     function createBet(address accepter, address arbiter, string winningCondition) public payable returns (bytes32) {
-        bytes32 betHash = keccak256(msg.sender,accepter,arbiter,winningCondition);
+        // block.timestamp hashed to ensure no duplicate block hashes
+        bytes32 betHash = keccak256(msg.sender,accepter,arbiter,winningCondition, block.timestamp);
         bets[betHash] = (Bet(msg.sender, accepter, arbiter, winningCondition, msg.value, false, false));
         BetCreated(betHash);
         return betHash;
